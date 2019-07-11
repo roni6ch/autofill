@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "AutoFill Form",
+    "version": "1.0",
+    "description": "AutoFill Forms",
+    "icons": {
+        "16": "content/images/icon16.png",
+        "48": "content/images/icon48.png",
+        "64": "content/images/icon64.png",
+        "128": "content/images/icon128.png"
+    },
+    "author": "Roni Chabra",
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
+    "browser_action": {
+        "default_icon": "content/images/icon128.png",
+        "default_popup": "index.html",
+        "default_title": "AutoFill Form"
+    }
+}
