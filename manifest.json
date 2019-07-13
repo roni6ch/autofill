@@ -12,11 +12,23 @@
     "author": "Roni Chabra",
     "permissions": [
         "activeTab",
-        "storage"
+        "storage",
+        "tabs"
     ],
     "browser_action": {
         "default_icon": "content/images/icon128.png",
-        "default_popup": "index.html",
-        "default_title": "AutoFill Form"
-    }
+        "default_title": "AutoFill Form",
+        "default_popup" : "index.html"
+    },
+    "content_scripts": [
+        {
+           "matches": ["<all_urls>"],
+           "js": ["content/js/site.js"]
+        }
+     ],
+    "background": {
+        "page":"background.html"
+       // "scripts": ["content/js/background.js"]
+      },
+      "content_security_policy": "script-src 'self' 'sha256-h2bcw/Q8Yj0sdxXF46xBLBpfEtL5Cdj63HKNUyr+EgQ='; object-src 'self'"
 }

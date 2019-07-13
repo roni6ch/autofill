@@ -31,16 +31,15 @@ $("#autoFillForm").submit(function (e) {
     let autoFill = $("#autoFillForm").serializeArray();
     console.log(autoFill);
     localStorage.setItem('autofill', JSON.stringify(autoFill));
-   // chrome.storage.sync.set({"autofill":JSON.stringify(autoFill)});
-
-chrome.storage.sync.set({ "autofill": JSON.stringify(autoFill) }, function(){
-    //  A data saved callback omg so fancy
 });
 
-});
 $("#fill").click(function (e) {
     e.preventDefault();
     let autoFill = JSON.parse(localStorage.getItem('autofill'));
+
+   
+
+
     $( document.querySelectorAll("input") ).each(function( i,val ) {
         let filterObj = _.filter(autoFill, function(o) { return o.name.toLowerCase() === val.name.toLowerCase(); });
         if (filterObj.length > 0){
