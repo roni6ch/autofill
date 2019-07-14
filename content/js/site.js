@@ -41,14 +41,12 @@ $("#fill").click(function (e) {
     document.querySelectorAll('input').forEach(function(node) {
         domInputs.push($(node).attr("name"));
      });
+
+
    chrome.runtime.sendMessage({dom: domInputs});
-   /*  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-        if (request.todo == "changeColor"){
-            var addColor = '#' + request.clickedColor;               
-            $('.title').css('font-style','italic');
-             $('.title').css('color', addColor);
-        }
-    });*/
+     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+         console.log(request);
+    });
 
     
     $( document.querySelectorAll("input") ).each(function( i,val ) {

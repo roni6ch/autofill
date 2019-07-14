@@ -20,6 +20,7 @@
         "default_popup" : "index.html"
     },
     "background": {
-        "scripts": ["content/js/background.js"]
+        "scripts": ["content/js/background.js"],
+        "persistent":false
       }
 }
