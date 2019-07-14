@@ -40,7 +40,8 @@ body {
     min-width:640px;
     margin: 0 auto;
 }
-
+h1{
+    margin: 1rem 0 1.68rem 0;}
 ol, ul {
     list-style: none;
 }

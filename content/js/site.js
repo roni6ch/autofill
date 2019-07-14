@@ -37,9 +37,20 @@ $("#fill").click(function (e) {
     e.preventDefault();
     let autoFill = JSON.parse(localStorage.getItem('autofill'));
 
-   
+    let domInputs = [];
+    document.querySelectorAll('input').forEach(function(node) {
+        domInputs.push($(node).attr("name"));
+     });
+   chrome.runtime.sendMessage({dom: domInputs});
+   /*  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+        if (request.todo == "changeColor"){
+            var addColor = '#' + request.clickedColor;               
+            $('.title').css('font-style','italic');
+             $('.title').css('color', addColor);
+        }
+    });*/
 
-
+    
     $( document.querySelectorAll("input") ).each(function( i,val ) {
         let filterObj = _.filter(autoFill, function(o) { return o.name.toLowerCase() === val.name.toLowerCase(); });
         if (filterObj.length > 0){

@@ -1,5 +1,9 @@
-
-/*chrome.runtime.onMessage.addListener(function(response,sender,sendResponse){
-    console.log(document.getElementsByTagName("title"));
-})
-*/
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+    console.log(request.dom);
+   /* if (request.todo == "showPageAction")
+    {
+        chrome.tabs.query({active:true,currentWindow: true}, function(tabs){
+            chrome.pageAction.show(tabs[0].id);
+        });
+    } */
+});
