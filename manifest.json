@@ -12,7 +12,11 @@
     "author": "Roni Chabra",
     "permissions": [
         "*://*/*",
-        "tabs"
+        "activeTab",
+        "tabs",
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
     ],
     "browser_action": {
         "default_icon": "content/images/icon128.png",
@@ -20,7 +24,8 @@
         "default_popup" : "index.html"
     },
     "background": {
-        "scripts": ["content/js/background.js"],
+        "scripts": ["content/data/data.js","content/js/lodash.min.js","content/js/jquery-3.4.1.min.js","content/js/background.js"],
         "persistent":false
       }
+      
 }

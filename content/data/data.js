@@ -2,69 +2,95 @@ var formInputsObj = {
     info: [
         {
             name: 'Name',
+            synonymous:['firstname','first','given-name','first_name','first-name'],
             type: 'text',
             icon: 'person'
         },
         {
             name: 'Middle',
+            synonymous:[],
             type: 'text',
             icon: 'person'
         },
         {
             name: 'Family',
+            synonymous:['lastname','last'],
             type: 'text',
             icon: 'person'
         },
         {
+            name: 'Home Phone',
+            synonymous:['home_phone','home_number'],
+            type: 'number',
+            icon: 'phone'
+        },
+        {
             name: 'Phone',
+            synonymous:['number','tel','mobile_phone'],
             type: 'number',
             icon: 'phone'
         },
         {
             name: 'Mail',
+            synonymous:['email'],
             type: 'email',
             icon: 'mail'
         },
         {
             name: 'Street',
+            synonymous:['address' , 'street-address'],
             type: 'text',
             icon: 'map'
         },
         {
             name: 'City',
+            synonymous:[],
+            type: 'text',
+            icon: 'map'
+        },
+        {
+            name: 'Country',
+            synonymous:['country-name','country'],
             type: 'text',
             icon: 'map'
         },
         {
             name: 'Zip',
+            synonymous:['zipcode','postal','postal-code'],
             type: 'number',
             icon: 'map'
         },
+        
 
     ],
     social: [
         {
             name: 'LinkedIn',
+            synonymous:[],
             type: 'text',
             icon: 'person'
         },
         {
             name: 'Facebook',
+            synonymous:[],
             type: 'text',
             icon: 'person'
         },
         {
             name: 'Git',
+            synonymous:[],
             type: 'text',
             icon: 'person'
         },
         {
             name: 'Website',
+            synonymous:[],
             type: 'text',
             icon: 'person'
         },
         {
             name: 'Other',
+            synonymous:[],
             type: 'text',
             icon: 'person'
         }]

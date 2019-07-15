@@ -45,7 +45,8 @@ h1{
 ol, ul {
     list-style: none;
 }
-
+.row{    margin-bottom: 0px;
+}
 hr {
     background: #000;
     width: 100%;
@@ -150,7 +151,7 @@ i:hover {
 }
 
 .wrapper {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     margin-top: 10px;
 }
@@ -285,6 +286,12 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     border-bottom: 1px solid #5298da;
     -webkit-box-shadow: 0 1px 0 0 #5298da;
     box-shadow: 0 1px 0 0 #5298da;
+}
+
+.input-field .prefix ~ input{margin-left:0px;    width: 100%;}
+.input-field .prefix{
+
+    left: -30px;
 }
 
 /**************************************************************	INDEX	*******************************************************/
