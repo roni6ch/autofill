@@ -24,7 +24,8 @@
         "default_popup" : "index.html"
     },
     "background": {
-        "scripts": ["content/data/data.js","content/js/lodash.min.js","content/js/jquery-3.4.1.min.js","content/js/background.js"],
+        "page": "background.html",
+        //"scripts": ["content/js/background.js"],
         "persistent":false
       }
       
