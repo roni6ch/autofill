@@ -293,7 +293,20 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 
     left: -30px;
 }
-
+.input-field .prefix ~ label{margin-left:0px;}
+.wrapper{display:none;}
+#my-signin2{
+margin: 0 auto;
+margin-top: 100px;
+width: 640px;
+display:none;
+}
+#error{
+    color:red; font-weight: bold; text-align: left;    height: 20px;
+}
+#logout{
+    float:right;
+}
 /**************************************************************	INDEX	*******************************************************/
 
 

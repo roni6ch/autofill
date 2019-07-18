@@ -2,7 +2,7 @@ var formInputsObj = {
     info: [
         {
             name: 'Name',
-            synonymous:['firstname','first','given-name','first_name','first-name'],
+            synonymous:['firstname','first','given-name','first_name','first-name','username'],
             type: 'text',
             icon: 'person'
         },

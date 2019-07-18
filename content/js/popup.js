@@ -1,7 +1,77 @@
-let formInfo = '', social = '';
+$("#register").click(function (e) {
+    e.preventDefault();
+    let email = $("#email").val();
+    let password = $("#password").val();
+    let auth = firebase.auth();
+    auth.createUserWithEmailAndPassword(email, password).then(function(data) {
+        console.log(data);
+      }).catch(e => console.log(e.message));
+})
+
+$("#signin").click(function (e) {
+    e.preventDefault();
+    let email = $("#email").val();
+    let password = $("#password").val();
+    let auth = firebase.auth();
+    auth.signInWithEmailAndPassword(email, password).then(function(data) {
+        console.log(data);
+        let user = {email:data.user.email}
+        localStorage.setItem('user',JSON.stringify(user));
+        init();
+      }).catch(e => $("#error").html(e.message));
+})
+
+$("#logout").click(function (e) {
+    e.preventDefault();
+    firebase.auth().signOut().then(function () {
+        console.log("Sign-out successful");
+        $("#my-signin2").show();
+        $(".wrapper").hide();
+    }).catch(function (error) {
+        console.log(error);
+    });
+})
+
+$("#facebook").click(function (e) {
+    e.preventDefault();
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+        console.log(result);
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        // ...
+      }).catch(function(error) {
+        console.log(error);
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+})
+
+init();
 appendInputs();
-loadData();
+function init() {
+    if (localStorage.getItem('user') !== null) {
+        //load data from the json to inputs in extention
+        loadData();
+        $("#my-signin2").hide();
+        $(".wrapper").show();
+    }
+    else{
+        $("#my-signin2").show();
+    }
+}
+//loop all inputs from data.json and append them to extion screen
 function appendInputs() {
+    let formInfo = '', social = '';
     for (i = 0; i < formInputsObj.info.length; i++) {
         let obj = formInputsObj.info[i];
         formInfo += `<div class="col-4">
@@ -28,6 +98,7 @@ function appendInputs() {
     }
     $('.profile').append(formInfo);
     $('.social').append(social);
+
 }
 function loadData() {
     let autoFill = JSON.parse(localStorage.getItem('autofill'));
@@ -39,22 +110,24 @@ function loadData() {
         }
     })
 }
+//submit - save new data to localstorage
 $("#autoFillForm").submit(function (e) {
     e.preventDefault();
     let autoFill = $("#autoFillForm").serializeArray();
 
     let autofillArr = [];
-    $('#autoFillForm input').each(function(){
+    $('#autoFillForm input').each(function () {
         autofillArr.push({
-            name:$(this).attr('name'),
-            value:$(this).val(),
-            synonymous:$(this).attr('data-synonymous'),
+            name: $(this).attr('name'),
+            value: $(this).val(),
+            synonymous: $(this).attr('data-synonymous'),
         });
     })
     console.log(autofillArr);
     localStorage.setItem('autofill', JSON.stringify(autofillArr));
 });
 
+//fill - inject data from extention to tab
 $("#fill").click(function (e) {
     e.preventDefault();
     let domInputs = [];
@@ -67,6 +140,7 @@ $("#fill").click(function (e) {
         chrome.tabs.executeScript(activeTab.id, { file: "content/js/jquery-3.4.1.min.js" });
         chrome.tabs.executeScript(activeTab.id, { file: "content/js/lodash.min.js" });
         chrome.tabs.executeScript(activeTab.id, { file: "content/data/data.js" });
+
         chrome.tabs.executeScript(activeTab.id, { code: "var autoFill = " + localStorage.getItem('autofill') },
             function () {
                 chrome.tabs.executeScript(activeTab.id, { file: "content/js/background.js" });

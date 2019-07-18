@@ -1,32 +1,45 @@
-console.log(window.autoFill);
+(function() {
 
-inputs = document.querySelectorAll('input');
-for (let i = 0; i < inputs.length; i++) {
-    let filterObj = _.filter(window.autoFill, function (o) {
-        return (o.name.toLowerCase() === (inputs[i].name.toLowerCase() || inputs[i].id.toLowerCase())) ||
-            //  typeof(o.synonymous) !== "undefined" && ( ( inputs[i].name.includes(o.synonymous) && inputs[i].name !== "" ) || ( inputs[i].id.includes(o.synonymous) && inputs[i].id !== "" )) ||
-            // typeof(o.synonymous) !== "undefined" && ( ( o.synonymous.includes(inputs[i].name) && inputs[i].name !== "" ) || ( o.synonymous.includes(inputs[i].id) && inputs[i].id !== "" )) ||
-            containsAny(inputs[i].name, o.synonymous) && inputs[i].name !== "" ||
-            containsAny(inputs[i].id, o.synonymous) && inputs[i].id !== "" ||
-            containsAny(inputs[i].autocomplete, o.synonymous) && inputs[i].autocomplete !== ""
-        //  || $(inputs[i]).parent().html() !== "" && ( $(inputs[i]).parent().html().includes(inputs[i].name) || $(inputs[i]).parent().html().includes(inputs[i].id) )
-    });
-    if (filterObj.length > 0) {
-        inputs[i].value = filterObj[0].value;
-        $(inputs[i]).parent().find('label').addClass('active');
-    }
-}
+    var firebaseConfig = {
+        apiKey: "AIzaSyCBIYJ0e1JT1v2bWGDWEwEZ-Cmb5xhFjSQ",
+        authDomain: "autofill-1562836772794.firebaseapp.com",
+        databaseURL: "https://autofill-1562836772794.firebaseio.com",
+        projectId: "autofill-1562836772794",
+        storageBucket: "",
+        messagingSenderId: "47665567099",
+        appId: "1:47665567099:web:0f041cb8c760f4d2"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
 
-
-function containsAny(str, substrings) {
-    if (substrings !== "undefined" && substrings !== "") {
-        substrings = substrings.split(",");
-        for (var i = 0; i != substrings.length; i++) {
-            var substring = substrings[i];
-            if (str.indexOf(substring) != - 1) {
-                return true;
+      
+    // Load the script
+    var script = document.createElement("SCRIPT");
+    script.src = 'content/js/jquery-3.4.1.min.js';
+    script.type = 'text/javascript';
+    script.onload = function() {
+        var $ = window.jQuery;
+        console.log(window.autoFill);
+        $('input').map((i, v) => {
+            //map all inputs on tab
+            let inputParam = [...v.id.split(/\W+/).map(v => v.toLowerCase()), ...v.name.split(/\W+/), ...v.placeholder.split(/\W+/).map(v => v.toLowerCase()), ...v.className.split(/\W+/).map(v => v.toLowerCase())];
+            //remove all empty strings --> ['name','username']
+            inputParam = inputParam.filter(function (el) {
+                return el != "";
+            });
+            console.log(inputParam);
+            //filter each input that equal to data
+            let filterObj = _.filter(window.autoFill, function (o) {
+                return (inputParam.indexOf(o.name.toLowerCase()) > -1 || inputParam.indexOf(o.synonymous.toLowerCase()) > -1)
+            });
+            if (filterObj.length > 0) {
+                console.log('found input equal to data -->',filterObj);
+                v.value = filterObj[0].value;
+                $(v).parent().find('label').addClass('active');
             }
-        }
-    }
-    return false;
-}
+        });
+        
+    };
+    document.getElementsByTagName("head")[0].appendChild(script);
+})();
+
