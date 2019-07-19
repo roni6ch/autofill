@@ -1,16 +1,5 @@
 (function() {
 
-    var firebaseConfig = {
-        apiKey: "AIzaSyCBIYJ0e1JT1v2bWGDWEwEZ-Cmb5xhFjSQ",
-        authDomain: "autofill-1562836772794.firebaseapp.com",
-        databaseURL: "https://autofill-1562836772794.firebaseio.com",
-        projectId: "autofill-1562836772794",
-        storageBucket: "",
-        messagingSenderId: "47665567099",
-        appId: "1:47665567099:web:0f041cb8c760f4d2"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
 
       
     // Load the script
@@ -43,3 +32,62 @@
     document.getElementsByTagName("head")[0].appendChild(script);
 })();
 
+
+$("#register").click(function (e) {
+    e.preventDefault();
+    let email = $("#email").val();
+    let password = $("#password").val();
+    let auth = firebase.auth();
+    auth.createUserWithEmailAndPassword(email, password).then(function(data) {
+        console.log(data);
+      }).catch(e => console.log(e.message));
+})
+
+
+$("#signin").click(function (e) {
+    e.preventDefault();
+    let email = $("#email").val();
+    let password = $("#password").val();
+    let auth = firebase.auth();
+    auth.signInWithEmailAndPassword(email, password).then(function(data) {
+        console.log(data);
+        let user = {email:data.user.email}
+        localStorage.setItem('user',JSON.stringify(user));
+        init();
+      }).catch(e => $("#error").html(e.message));
+})
+
+$("#logout").click(function (e) {
+    e.preventDefault();
+    firebase.auth().signOut().then(function () {
+        console.log("Sign-out successful");
+        $("#my-signin2").show();
+        $(".wrapper").hide();
+    }).catch(function (error) {
+        console.log(error);
+    });
+})
+
+$("#facebook").click(function (e) {
+    e.preventDefault();
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+        console.log(result);
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        // ...
+      }).catch(function(error) {
+        console.log(error);
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+})

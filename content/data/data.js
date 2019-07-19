@@ -19,14 +19,14 @@ var formInputsObj = {
             icon: 'person'
         },
         {
-            name: 'Home Phone',
+            name: 'Phone',
             synonymous:['home_phone','home_number'],
             type: 'number',
             icon: 'phone'
         },
         {
-            name: 'Phone',
-            synonymous:['number','tel','mobile_phone'],
+            name: 'Mobile',
+            synonymous:['number','tel','mobile_phone','mobile'],
             type: 'number',
             icon: 'phone'
         },

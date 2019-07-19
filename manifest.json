@@ -28,7 +28,6 @@
         "default_popup": "index.html"
     },
     "background": {
-<<<<<<< HEAD
         "scripts": [
             "/content/js/firebase.js",
             "content/js/background.js"
@@ -36,11 +35,4 @@
         "persistent": true
     }
     ,"content_security_policy": "script-src 'self' https://apis.google.com https://www.gstatic.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
-=======
-        "page": "background.html",
-        //"scripts": ["content/js/background.js"],
-        "persistent":false
-      }
-      
->>>>>>> 94665a8d048d20c61d0e359cd38e848a20457434
 }
