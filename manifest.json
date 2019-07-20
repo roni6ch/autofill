@@ -20,6 +20,8 @@
         "<all_urls>",
         "http://localhost/*",
         "*://apis.google.com/*",
+        "https://www.googleapis.com/*",
+        "https://*.firebaseio.com/",
         "*://google.com/*"
     ],
     "browser_action": {
@@ -29,10 +31,9 @@
     },
     "background": {
         "scripts": [
-            "/content/js/firebase.js",
             "content/js/background.js"
           ],
         "persistent": true
     }
-    ,"content_security_policy": "script-src 'self' https://apis.google.com https://www.gstatic.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
+    ,"content_security_policy": "script-src 'self' 'unsafe-eval' https://code.jquery.com https://*.firebase.com  https://cdn.firebase.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://apis.google.com https://www.gstatic.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
 }

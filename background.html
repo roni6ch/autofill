@@ -1,25 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-</head>
-<body>
-        <script src="content/js/jquery-3.4.1.min.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
-        <script>
-        
-    var firebaseConfig = {
-        apiKey: "AIzaSyCBIYJ0e1JT1v2bWGDWEwEZ-Cmb5xhFjSQ",
-        authDomain: "autofill-1562836772794.firebaseapp.com",
-        databaseURL: "https://autofill-1562836772794.firebaseio.com",
-        projectId: "autofill-1562836772794",
-        storageBucket: "",
-        messagingSenderId: "47665567099",
-        appId: "1:47665567099:web:0f041cb8c760f4d2"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      </script>
-    <script src="content/js/background.js"></script>
-</body>
+  <head>
+      <meta http-equiv="Content-Security-Policy" content="
 
+      default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval';
+      script-src  'self' https://www.gstatic.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self';
+    
+      " />
+     </head>
+  <body>
+    <script src="content/js/background.js"></script>
+  </body>
 </html>

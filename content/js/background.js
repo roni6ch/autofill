@@ -1,93 +1,81 @@
 (function() {
+  // Load the script
+  var script = document.createElement("SCRIPT");
+  script.src = "https://code.jquery.com/jquery-3.4.1.min.js";
+  script.type = "text/javascript";
+  script.onload = function() {
 
+    $.when(
+      $.getScript( "https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js" ),
+      $.getScript( "https://www.gstatic.com/firebasejs/6.3.0/firebase-auth.js" ),
+      $.getScript( "https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js" ),
+      $.Deferred(function( deferred ){
+          $( deferred.resolve );
+      })
+  ).done(function(){
 
-      
-    // Load the script
-    var script = document.createElement("SCRIPT");
-    script.src = 'content/js/jquery-3.4.1.min.js';
-    script.type = 'text/javascript';
-    script.onload = function() {
-        var $ = window.jQuery;
-        console.log(window.autoFill);
-        $('input').map((i, v) => {
-            //map all inputs on tab
-            let inputParam = [...v.id.split(/\W+/).map(v => v.toLowerCase()), ...v.name.split(/\W+/), ...v.placeholder.split(/\W+/).map(v => v.toLowerCase()), ...v.className.split(/\W+/).map(v => v.toLowerCase())];
-            //remove all empty strings --> ['name','username']
-            inputParam = inputParam.filter(function (el) {
-                return el != "";
-            });
-            console.log(inputParam);
-            //filter each input that equal to data
-            let filterObj = _.filter(window.autoFill, function (o) {
-                return (inputParam.indexOf(o.name.toLowerCase()) > -1 || inputParam.indexOf(o.synonymous.toLowerCase()) > -1)
-            });
-            if (filterObj.length > 0) {
-                console.log('found input equal to data -->',filterObj);
-                v.value = filterObj[0].value;
-                $(v).parent().find('label').addClass('active');
-            }
-        });
-        
+    
+    var firebaseConfig = {
+      apiKey: "AIzaSyCBIYJ0e1JT1v2bWGDWEwEZ-Cmb5xhFjSQ",
+      authDomain: "autofill-1562836772794.firebaseapp.com",
+      databaseURL: "https://autofill-1562836772794.firebaseio.com",
+      projectId: "autofill-1562836772794",
+      storageBucket: "",
+      messagingSenderId: "47665567099",
+      appId: "1:47665567099:web:0f041cb8c760f4d2"
     };
-    document.getElementsByTagName("head")[0].appendChild(script);
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+
+    var $ = window.jQuery;
+    console.log(window.autoFill);
+    console.log(window.user);
+    $("input").map((i, v) => {
+      //map all inputs on tab
+      let inputParam = [
+        ...v.id.split(/\W+/).map(v => v.toLowerCase()),
+        ...v.name.split(/\W+/),
+        ...v.placeholder.split(/\W+/).map(v => v.toLowerCase()),
+        ...v.className.split(/\W+/).map(v => v.toLowerCase())
+      ];
+      //remove all empty strings --> ["input_firstname", "firstName", "bb", "textfield__input" , "" , null]
+      inputParam = inputParam.filter(function(el) { return el != ""; });
+      inputParam = inputParam.map(function(item) { return item.toLowerCase(); });
+      window.autoFill.forEach(function(value) {
+        let valueSynonymous = value.synonymous.split(",");
+        valueSynonymous.push(value.name);
+        let found = false;
+        valueSynonymous.forEach(function(val) {
+            if (inputParam.includes(val)){
+              found = true;
+                console.log("found input equal to data -->", val);
+                v.value = value.value;
+                $(v).parent().find("label").addClass("active");
+            }
+        })
+        if (!found){
+          //send each inputParam to db with counter
+          inputParam.forEach(function(val) {
+            writeUnknownInputData(val);
+          });
+        }
+      });
+
+    });
+  });
+  
+  };
+  document.getElementsByTagName("head")[0].appendChild(script);
 })();
 
-
-$("#register").click(function (e) {
-    e.preventDefault();
-    let email = $("#email").val();
-    let password = $("#password").val();
-    let auth = firebase.auth();
-    auth.createUserWithEmailAndPassword(email, password).then(function(data) {
-        console.log(data);
-      }).catch(e => console.log(e.message));
-})
-
-
-$("#signin").click(function (e) {
-    e.preventDefault();
-    let email = $("#email").val();
-    let password = $("#password").val();
-    let auth = firebase.auth();
-    auth.signInWithEmailAndPassword(email, password).then(function(data) {
-        console.log(data);
-        let user = {email:data.user.email}
-        localStorage.setItem('user',JSON.stringify(user));
-        init();
-      }).catch(e => $("#error").html(e.message));
-})
-
-$("#logout").click(function (e) {
-    e.preventDefault();
-    firebase.auth().signOut().then(function () {
-        console.log("Sign-out successful");
-        $("#my-signin2").show();
-        $(".wrapper").hide();
-    }).catch(function (error) {
-        console.log(error);
+function writeUnknownInputData(val) {
+  let userId = window.user.user.uid;
+  firebase
+    .database()
+    .ref("inputs/" + userId)
+    .set({
+      [val]: 1
     });
-})
-
-$("#facebook").click(function (e) {
-    e.preventDefault();
-    var provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-        console.log(result);
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        // ...
-      }).catch(function(error) {
-        console.log(error);
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        // ...
-      });
-})
+  localStorage.setItem("autofill", JSON.stringify(autofillArr));
+}
