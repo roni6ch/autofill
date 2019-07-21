@@ -1,22 +1,37 @@
+$("#registerBT").click(function(e) {
+  $("#my-signin2").hide();
+  $("#registerForm").show();  
+})
+$("#signInBT").click(function(e) {
+  $("#my-signin2").show();
+  $("#registerForm").hide();  
+})
 $("#register").click(function(e) {
   e.preventDefault();
   let email = $("#email").val();
   let password = $("#password").val();
+  let password_repeat = $("#password_repeat").val();
+  if (password == password_repeat){
   let auth = firebase.auth();
   auth
     .createUserWithEmailAndPassword(email, password)
     .then(function(data) {
       console.log("user", data);
+      $("#registerForm").hide();  
       localStorage.setItem("user", JSON.stringify(data));
       init();
     })
-    .catch(e => $("#error").html(e.message).show());
+    .catch(e => $("#error_register").html(e.message).show());
+  }
+  else{
+    $("#error_register").html('Passwords are not equal!').show();
+  }
 });
 
 $("#signin").click(function(e) {
   e.preventDefault();
-  let email = $("#email").val();
-  let password = $("#password").val();
+  let email = $("#sign_email").val();
+  let password = $("#sign_password").val();
   let auth = firebase.auth();
   auth
     .signInWithEmailAndPassword(email, password)
@@ -140,7 +155,7 @@ $("#fill").click(function(e) {
 $("#forgot").click(function(e) {
   e.preventDefault();
   var auth = firebase.auth();
-  var emailAddress = $("#email").val();
+  var emailAddress = $("#sign_email").val();
 
   auth
     .sendPasswordResetEmail(emailAddress)
@@ -159,13 +174,15 @@ $("#forgot").click(function(e) {
 });
 
 $("input")
-  .not("#my-signin2 #email")
-  .not("#my-signin2 #password")
+  .not("#sign_email")
+  .not("#sign_password")
+  .not("#email")
+  .not("#password")
   .keydown(function() {
     $(".update").show();
     $("#error").hide();
   });
 
-$("#my-signin2 #email , #my-signin2 #password").keydown(function() {
+$("#email , #password , #sign_email , #sign_password").keydown(function() {
   $("#error").hide();
 });
