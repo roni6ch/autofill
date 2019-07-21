@@ -10,7 +10,7 @@ $("#register").click(function(e) {
       localStorage.setItem("user", JSON.stringify(data));
       init();
     })
-    .catch(e => $("#error").html(e.message));
+    .catch(e => $("#error").html(e.message).show());
 });
 
 $("#signin").click(function(e) {
@@ -123,6 +123,12 @@ $("#fill").click(function(e) {
       activeTab.id,
       { code: "var autoFill = " + localStorage.getItem("autofill") },
       function() {
+        chrome.tabs.executeScript(activeTab.id, {
+          file: "content/js/firebase.js"
+        });
+        chrome.tabs.executeScript(activeTab.id, {
+          file: "content/js/firebase-database.js"
+        });
         chrome.tabs.executeScript(activeTab.id, {
           file: "content/js/background.js"
         });

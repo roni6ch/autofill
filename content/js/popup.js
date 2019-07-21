@@ -74,9 +74,9 @@ function loadData() {
         if (snapshot.val() !== null) {
           let autoFill = Object.values(snapshot.val().data);
           console.log(autoFill);
-          $("#profileName span").html(autoFill[0].value);
-          $(".loader").hide();
-          $(".wrapper").show();
+
+            localStorage.setItem("autofill", JSON.stringify(autoFill));
+         
           $(document.querySelectorAll("input")).each(function(i, val) {
             let filterObj = _.filter(autoFill, function(o) {
               return o.name.toLowerCase() === val.name.toLowerCase();
@@ -90,6 +90,8 @@ function loadData() {
             }
           });
         }
+          $(".loader").hide();
+          $(".wrapper").show();
       });
   }, 0);
 }

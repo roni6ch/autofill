@@ -26,13 +26,13 @@ var formInputsObj = {
         },
         {
             name: 'Mobile',
-            synonymous:['number','tel','mobile_phone','mobile'],
+            synonymous:['number','tel','mobile_phone','mobile','mobilephone'],
             type: 'number',
             icon: 'phone'
         },
         {
             name: 'Mail',
-            synonymous:['email'],
+            synonymous:['email','EmailAddress','emailconfirm'],
             type: 'email',
             icon: 'mail'
         },
@@ -44,13 +44,13 @@ var formInputsObj = {
         },
         {
             name: 'City',
-            synonymous:[],
+            synonymous:['location','AreasOfInterest'],
             type: 'text',
             icon: 'map'
         },
         {
             name: 'Country',
-            synonymous:['country-name','country'],
+            synonymous:['country-name','country','state'],
             type: 'text',
             icon: 'map'
         },

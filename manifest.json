@@ -31,6 +31,9 @@
     },
     "background": {
         "scripts": [
+            "content/js/firebase.js",
+            "content/js/firebase-auth.js",
+            "content/js/firebase-database.js",
             "content/js/background.js"
           ],
         "persistent": true

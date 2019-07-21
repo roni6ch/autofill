@@ -76,6 +76,7 @@ table {
 input, textarea, select, option {
     resize: none;
     outline: none;
+    border-radius: 0px;
     -webkit-border-radius: 0px;
     border: 0;
 }
@@ -207,9 +208,6 @@ footer span {
 .update{
     display:none;
 }
-.signin {
-    /* width: 270px; */
-  }
   button:focus{
     background-color: #5298da;
   }
