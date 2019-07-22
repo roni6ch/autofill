@@ -11,8 +11,10 @@ var firebaseConfig = {
   messagingSenderId: "47665567099",
   appId: "1:47665567099:web:0f041cb8c760f4d2"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
 
 function init() {
   if (localStorage.getItem("user") !== null) {
@@ -74,6 +76,7 @@ function loadData() {
         if (snapshot.val() !== null) {
           let autoFill = Object.values(snapshot.val().data);
           console.log(autoFill);
+          $("#profileName span").html(autoFill[0].value);
 
             localStorage.setItem("autofill", JSON.stringify(autoFill));
          

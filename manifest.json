@@ -21,6 +21,7 @@
         "http://localhost/*",
         "*://apis.google.com/*",
         "https://www.googleapis.com/*",
+        "https://code.jquery.com/*",
         "https://*.firebaseio.com/",
         "*://google.com/*"
     ],
@@ -30,13 +31,8 @@
         "default_popup": "index.html"
     },
     "background": {
-        "scripts": [
-            "content/js/firebase.js",
-            "content/js/firebase-auth.js",
-            "content/js/firebase-database.js",
-            "content/js/background.js"
-          ],
-        "persistent": true
+        "persistent": false,
+        "page": "background.html"
     }
-    ,"content_security_policy": "script-src 'self' 'unsafe-eval' https://code.jquery.com https://*.firebase.com  https://cdn.firebase.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://apis.google.com https://www.gstatic.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
+    ,"content_security_policy": "script-src 'self' 'unsafe-eval' https://code.jquery.com/* https://s-usc1c-nss-229.firebaseio.com/ https://*.firebase.com  https://cdn.firebase.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://apis.google.com https://www.gstatic.com https://cdn.firebase.com; object-src 'self'"
 }

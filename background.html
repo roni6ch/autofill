@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <meta http-equiv="Content-Security-Policy" content="
 
-      default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval';
-      script-src  'self' https://www.gstatic.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self';
-    
-      " />
-     </head>
-  <body>
-    <script src="content/js/background.js"></script>
-  </body>
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval';
+      script-src  'self' https://www.gstatic.com https://cdn.firebase.com https://*.firebaseio.com https://s-usc1c-nss-229.firebaseio.com/ ; object-src 'self'; connect-src * 'self' *.firebaseapp.com wss://*.firebaseio.com *" />
+      <script defer src="content/js/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+  <script defer src="content/js/firebase.js"></script>
+  <script defer src="content/js/firebase-auth.js"></script>
+  <script defer src="content/js/firebase-database.js"></script>
+  <script defer src="content/js/background.js"></script>
+</body>
+
 </html>

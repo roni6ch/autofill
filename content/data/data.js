@@ -2,7 +2,7 @@ var formInputsObj = {
     info: [
         {
             name: 'Name',
-            synonymous:['firstname','first','given-name','first_name','first-name','username'],
+            synonymous:['firstname','first','given-name','first_name','first-name','username','applicant_name'],
             type: 'text',
             icon: 'person'
         },
@@ -26,13 +26,13 @@ var formInputsObj = {
         },
         {
             name: 'Mobile',
-            synonymous:['number','tel','mobile_phone','mobile','mobilephone'],
+            synonymous:['number','tel','mobile_phone','mobile','mobilephone','phoneNumber'],
             type: 'number',
             icon: 'phone'
         },
         {
             name: 'Mail',
-            synonymous:['email','EmailAddress','emailconfirm'],
+            synonymous:['email','EmailAddress','emailconfirm','from_email'],
             type: 'email',
             icon: 'mail'
         },
