@@ -1,42 +1,42 @@
-$("#registerBT").click(function(e) {
+$("#registerBT").click(function (e) {
   $("#my-signin2").hide();
-  $("#registerForm").show();  
+  $("#registerForm").show();
 })
-$("#signInBT").click(function(e) {
+$("#signInBT").click(function (e) {
   $("#my-signin2").show();
-  $("#registerForm").hide();  
+  $("#registerForm").hide();
 })
 
-$("#register").click(function(e) {
+$("#register").click(function (e) {
   e.preventDefault();
   let email = $("#email").val();
   let password = $("#password").val();
   let password_repeat = $("#password_repeat").val();
-  if (password == password_repeat){
-  let auth = firebase.auth();
-  auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(function(data) {
-      console.log("user", data);
-      $("#registerForm").hide();  
-      localStorage.setItem("user", JSON.stringify(data));
-      init();
-    })
-    .catch(e => $("#error_register").html(e.message).show());
+  if (password == password_repeat) {
+    let auth = firebase.auth();
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(function (data) {
+        console.log("user", data);
+        $("#registerForm").hide();
+        localStorage.setItem("user", JSON.stringify(data));
+        init();
+      })
+      .catch(e => $("#error_register").html(e.message).show());
   }
-  else{
+  else {
     $("#error_register").html('Passwords are not equal!').show();
   }
 });
 
-$("#signin").click(function(e) {
+$("#signin").click(function (e) {
   e.preventDefault();
   let email = $("#sign_email").val();
   let password = $("#sign_password").val();
   let auth = firebase.auth();
   auth
     .signInWithEmailAndPassword(email, password)
-    .then(function(data) {
+    .then(function (data) {
       localStorage.setItem("user", JSON.stringify(data));
       init();
     })
@@ -47,35 +47,35 @@ $("#signin").click(function(e) {
     );
 });
 
-$("#logout").click(function(e) {
+$("#logout").click(function (e) {
   e.preventDefault();
   firebase
     .auth()
     .signOut()
-    .then(function() {
+    .then(function () {
       console.log("Sign-out successful");
       localStorage.removeItem("user");
       localStorage.removeItem("autofill");
       init();
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
     });
 });
 
-$("#google").click(function(e) {
+$("#google").click(function (e) {
   e.preventDefault();
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
   firebase
     .auth()
     .signInWithPopup(provider)
-    .then(function(data) {
+    .then(function (data) {
       console.log("user", data);
       localStorage.setItem("user", JSON.stringify(data));
       init();
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
       // Handle Errors here.
       var errorCode = error.code;
@@ -88,39 +88,12 @@ $("#google").click(function(e) {
 });
 
 
-$("#facebook").click(function(e) {
-  let facebook = new firebase.auth.FacebookAuthProvider();
-firebase.auth().signInWithPopup(facebook).then(function(result) {
-  // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-  var token = result.credential.accessToken;
-  // The signed-in user info.
-  var user = result.user;
-  console.log(result);
-  console.log(user);
-  //console.log("user", data);
-  //localStorage.setItem("user", JSON.stringify(data));
-  //init();
-  // ...
-}).catch(function(error) {
-  console.log(error);
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // The email of the user's account used.
-  var email = error.email;
-  // The firebase.auth.AuthCredential type that was used.
-  var credential = error.credential;
-  // ...
-});
-});
-
-
 //submit - save new data to localstorage
-$("#autoFillForm").submit(function(e) {
+$("#autoFillForm").submit(function (e) {
   e.preventDefault();
   $(".update").hide();
   let autofillArr = [];
-  $("#autoFillForm input").each(function() {
+  $("#autoFillForm input").each(function () {
     autofillArr.push({
       name: $(this).attr("name"),
       value: $(this).val(),
@@ -144,14 +117,14 @@ function writeUserData(autofillArr) {
 }
 
 //fill - inject data from extention to tab
-$("#fill").click(function(e) {
+$("#fill").click(function (e) {
   e.preventDefault();
   let domInputs = [];
-  document.querySelectorAll("input").forEach(function(node) {
+  document.querySelectorAll("input").forEach(function (node) {
     domInputs.push($(node).attr("name"));
   });
 
-  chrome.tabs.query({ active: true, currentWindow: true }, function(
+  chrome.tabs.query({ active: true, currentWindow: true }, function (
     arrayOfTabs
   ) {
     var activeTab = arrayOfTabs[0];
@@ -166,7 +139,7 @@ $("#fill").click(function(e) {
     chrome.tabs.executeScript(
       activeTab.id,
       { code: "var autoFill = " + localStorage.getItem("autofill") },
-      function() {
+      function () {
         chrome.tabs.executeScript(activeTab.id, {
           file: "content/js/firebase.js"
         });
@@ -181,20 +154,20 @@ $("#fill").click(function(e) {
   });
 });
 
-$("#forgot").click(function(e) {
+$("#forgot").click(function (e) {
   e.preventDefault();
   var auth = firebase.auth();
   var emailAddress = $("#sign_email").val();
 
   auth
     .sendPasswordResetEmail(emailAddress)
-    .then(function() {
+    .then(function () {
       // Email sent.
       $("#error")
         .html("Email sent to " + emailAddress)
         .show();
     })
-    .catch(function(error) {
+    .catch(function (error) {
       // An error happened.
       $("#error")
         .html("Error - Please fill email input")
@@ -207,11 +180,11 @@ $("input")
   .not("#sign_password")
   .not("#email")
   .not("#password")
-  .keydown(function() {
+  .keydown(function () {
     $(".update").show();
     $("#error").hide();
   });
 
-$("#email , #password , #sign_email , #sign_password").keydown(function() {
+$("#email , #password , #sign_email , #sign_password").keydown(function () {
   $("#error").hide();
 });

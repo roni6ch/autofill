@@ -1,4 +1,4 @@
-let unknownInputDataFilteredExistInputs = [];
+unknownInputDataFilteredExistInputs = [];
 
 var firebaseConfig = {
     apiKey: "AIzaSyCBIYJ0e1JT1v2bWGDWEwEZ-Cmb5xhFjSQ",

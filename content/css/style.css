@@ -399,12 +399,18 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 #error , #error_register{
     color:red; font-weight: bold; text-align: left;    height: 20px;
 }
+.errorWrapper{
+    height:20px;
+}
 #logout{
     float:right;
     background:transparent !important;
     margin-right: 10px;
     margin-top: 12px;
 }
+.select-wrapper{width:100%;}
+.select-wrapper+label{    position: absolute;
+    top: -12px;}
 /**************************************************************	INDEX	*******************************************************/
 
 
