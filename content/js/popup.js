@@ -50,7 +50,7 @@ function appendInputs() {
         social = "";
     for (i = 0; i < formInputsObj.info.length; i++) {
         let obj = formInputsObj.info[i];
-        if (obj.type === 'text' || obj.type === 'number'){
+        if (obj.type === 'text' || obj.type === 'number' || obj.type === 'email' ){
             formInfo += `<div class="col-4">
                     <div class="row">
                         <div class="input-field col s12">
@@ -65,10 +65,10 @@ function appendInputs() {
         }
         else if (obj.type === 'select'){
             formInfo += `<div class="col-4"> <div class="row">
-            <select id="${obj.name}" data-synonymous="${obj.synonymous}">
-            <option value="" disabled selected>Choose your option</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <select id="${obj.name}" name="${obj.name}" data-synonymous="${obj.synonymous}">
+            <option value="" disabled selected>Choose your ${obj.name}</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
           </select>
           <label>${obj.name}</label>
           </div></div>`;
@@ -91,6 +91,8 @@ function appendInputs() {
     $(".profile").append(formInfo);
     $(".social").append(social);
     $('select').formSelect();
+    $(".select-wrapper").addClass('input-field col s12')
+    
 }
 function loadData() {
     //get data from firebase DataBase and insert to 'autofill' localstorage
@@ -119,6 +121,16 @@ function loadData() {
                                 .addClass("active");
                         }
                     });
+
+                    /* Dynamic select inputs */
+                    for (i = 0; i < formInputsObj.info.length; i++) {
+                        let obj = formInputsObj.info[i];
+                        if (obj.type === 'select'){
+                            let selectObj = _.find(autoFill, function(o) { return o.name == obj.name; });
+                            $('#'+obj.name).parent().find('input').val(selectObj.value);
+                        }
+                    }
+                 
                 }
                 $(".loader").hide();
                 $(".wrapper").show();

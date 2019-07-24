@@ -19,6 +19,12 @@ var formInputsObj = {
             icon: 'person'
         },
         {
+            name: 'Username',
+            synonymous: ['user', 'user_name'],
+            type: 'text',
+            icon: 'person'
+        },
+        {
             name: 'Phone',
             synonymous: ['home_phone', 'home_number'],
             type: 'number',

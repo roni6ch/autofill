@@ -93,13 +93,23 @@ $("#autoFillForm").submit(function (e) {
   e.preventDefault();
   $(".update").hide();
   let autofillArr = [];
-  $("#autoFillForm input").each(function () {
+  $("#autoFillForm input").not('.select-dropdown').each(function () {
     autofillArr.push({
       name: $(this).attr("name"),
       value: $(this).val(),
       synonymous: $(this).attr("data-synonymous")
     });
   });
+  var selectElememts = document.querySelectorAll('select');
+
+  selectElememts.forEach(function (elem) {
+    autofillArr.push({
+      name: elem.name,
+      value: elem.value,
+      synonymous: elem.getAttribute("data-synonymous")
+    });
+      });
+
   $("#profileName span").html(autofillArr[0].value);
   console.log(autofillArr);
   writeUserData(autofillArr);
@@ -175,12 +185,12 @@ $("#forgot").click(function (e) {
     });
 });
 
-$("input")
+$("input , .select-dropdown")
   .not("#sign_email")
   .not("#sign_password")
   .not("#email")
   .not("#password")
-  .keydown(function () {
+  .click(function () {
     $(".update").show();
     $("#error").hide();
   });

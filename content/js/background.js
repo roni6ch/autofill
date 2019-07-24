@@ -17,14 +17,14 @@ console.log(window.autoFill);
 console.log(window.user);
 
 /********* DOM INPUTS  *********/
-let domInputs = $("input").not("[type=hidden]");
+domInputs = $("input").not("[type=hidden]");
 if (domInputs.length > 0) {
     console.log('iframe', domInputs);
     unknownInputDataFilteredExistInputs = fillDomInputs(domInputs);
 }
 
 /********* IFRAME INPUTS  *********/
-let iframeInputs = $('iframe').contents().find('input').not("[type=hidden]");
+iframeInputs = $('iframe').contents().find('input').not("[type=hidden]");
 if (iframeInputs.length > 0) {
     console.log('iframe', iframeInputs);
     unknownInputDataFilteredExistInputs = fillDomInputs(iframeInputs);
@@ -72,10 +72,14 @@ function fillDomInputs(domInputs) {
         ];
         //remove all empty strings --> ["input_firstname", "firstName", "bb", "textfield__input" , "" , null]
         inputParam = inputParam.filter(function (el) {
-            return el.replace(/[^\w\s]/gi, '') != "" &&
-                isNaN(parseFloat(el)) && //checkes if it is number
-                !/\d/.test(el);
+            return el.replace(/[^\w\s]/gi, '').replace(/[0-9]/g, '');
         }); // checks if the string have numbers in it --> b9
+        inputParam = inputParam.map(function (el) {
+            return el.replace(/[0-9]/g, '');
+        }); 
+        inputParam = inputParam.filter(function (el) {
+            return el !== "";
+        });
         inputParam = inputParam.map(function (item) { return item.toLowerCase(); });
         window.autoFill.forEach(function (value) {
             let valueSynonymous = value.synonymous.split(",");

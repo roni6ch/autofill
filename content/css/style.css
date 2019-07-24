@@ -402,6 +402,10 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .errorWrapper{
     height:20px;
 }
+.select-wrapper input.select-dropdown{
+
+    text-transform: capitalize;
+}
 #logout{
     float:right;
     background:transparent !important;
