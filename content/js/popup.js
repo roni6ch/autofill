@@ -98,8 +98,6 @@ function appendInputs() {
 function loadData() {
     //get data from firebase DataBase and insert to 'autofill' localstorage
     setTimeout(function () {
-
-        //TODO: get "usersUnfilledInputs" - by website - from db and add to localStorage in order to send to background with "openBackground" function and then loop inside the background js file
         firebase
             .database()
             .ref("users/" + JSON.parse(localStorage.getItem("user")).user.uid)
@@ -135,9 +133,30 @@ function loadData() {
                     }
                  
                 }
-                $(".loader").hide();
-                $(".wrapper").show();
-                openBackground();
+
+
+
+               //get "usersUnfilledInputs" - by website - from db and add to localStorage in order to send to background with "openBackground" function and then loop inside the background js file
+                chrome.tabs.query({ active: true, currentWindow: true }, function ( arrayOfTabs ) {
+                    var activeTab = arrayOfTabs[0];
+                    console.log(activeTab)
+                        // get unfilled Inputs
+                        firebase
+                        .database()
+                        .ref("usersUnfilledInputs/" + JSON.parse(localStorage.getItem("user")).user.uid + "/" + activeTab.url.split(".")[1])
+                        .once("value")
+                        .then(function (snapshot) {
+                            if (snapshot.val() !== null && typeof(snapshot.val().unfilled) !== "undefined") {
+                                let unfilledInputs = Object.values(snapshot.val().unfilled);
+                                localStorage.setItem("unfilledInputs", JSON.stringify(unfilledInputs));
+                            }
+                                        
+                            $(".loader").hide();
+                            $(".wrapper").show();
+                            openBackground();
+                        })
+                })
+
             });
     }, 0);
 }

@@ -150,9 +150,8 @@ function openBackground(){
     });
     chrome.tabs.executeScript(activeTab.id, { file: "content/data/data.js" });
     chrome.tabs.executeScript(activeTab.id, { code: "var user = " + localStorage.getItem("user") });
-    chrome.tabs.executeScript(
-      activeTab.id,
-      { code: "var autoFill = " + localStorage.getItem("autofill") },
+    chrome.tabs.executeScript(activeTab.id, { code: "var autoFill = " + localStorage.getItem("autofill") });
+    chrome.tabs.executeScript(activeTab.id, { code: "var unfilledInputs = " +  localStorage.getItem("unfilledInputs")},
       function () {
         chrome.tabs.executeScript(activeTab.id, {
           file: "content/js/firebase.js"

@@ -16,6 +16,7 @@ firebase.initializeApp(firebaseConfig);
 
 var $ = window.jQuery;
 console.log(window.autoFill);
+console.log(window.unfilledInputs);
 console.log(window.user);
 
 /********* DOM INPUTS  *********/
@@ -34,6 +35,13 @@ if (iframeInputs.length > 0) {
   console.log("iframe", iframeInputs);
   unknownInputDataFilteredExistInputs = fillDomInputs(iframeInputs);
 }
+
+window.unfilledInputs.forEach(function(val,ind) {
+  console.log('unfilledInputs',val);
+  $(`input[${val.attr}=${val.input}]`).val(val.value);
+});
+
+
 
 $("input")
   .not("[type=hidden]")
@@ -165,17 +173,23 @@ if (
       .not("[type=hidden]")
       .each(function(i, node) {
         if (node.value !== "") {
-          let key = "";
-          if (typeof node.getAttribute("name") !== "undefined")
-            key = node.getAttribute("name");
-          else if (typeof node.getAttribute("id") !== "undefined")
-            key = node.getAttribute("id");
-          else if (typeof node.getAttribute("placeholder") !== "undefined")
-            key = node.getAttribute("placeholder");
-          unFilled.push({ [key]: node.value });
+          let input = "";
+          let attrType = "";
+          if (typeof node.getAttribute("name") !== "undefined"){
+            input = node.getAttribute("name");
+            attrType = "name";
+          }
+          else if (typeof node.getAttribute("id") !== "undefined"){
+            input = node.getAttribute("id");
+            attrType = "id";
+          }
+          else if (typeof node.getAttribute("placeholder") !== "undefined"){
+            input = node.getAttribute("placeholder");
+            attrType = "placeholder";
+          }
+          unFilled.push({ attr: attrType, input:input, value: node.value });
         }
       });
-    console.log(unFilled);
     if (unFilled.length > 0){
         //save the input + value on firebase
         writeUserData(unFilled);
