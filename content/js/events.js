@@ -129,11 +129,15 @@ function writeUserData(autofillArr) {
 //fill - inject data from extention to tab
 $("#fill").click(function (e) {
   e.preventDefault();
-  let domInputs = [];
+  /*let domInputs = [];
   document.querySelectorAll("input").forEach(function (node) {
     domInputs.push($(node).attr("name"));
   });
+*/
+ openBackground();
+});
 
+function openBackground(){
   chrome.tabs.query({ active: true, currentWindow: true }, function (
     arrayOfTabs
   ) {
@@ -157,13 +161,15 @@ $("#fill").click(function (e) {
           file: "content/js/firebase-database.js"
         });
         chrome.tabs.executeScript(activeTab.id, {
+          file: "content/js/firebase-auth.js"
+        });
+        chrome.tabs.executeScript(activeTab.id, {
           file: "content/js/background.js"
         });
       }
     );
   });
-});
-
+}
 $("#forgot").click(function (e) {
   e.preventDefault();
   var auth = firebase.auth();

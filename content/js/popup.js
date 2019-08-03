@@ -1,3 +1,4 @@
+
 appendInputs();
 init();
 
@@ -97,12 +98,14 @@ function appendInputs() {
 function loadData() {
     //get data from firebase DataBase and insert to 'autofill' localstorage
     setTimeout(function () {
+
+        //TODO: get "usersUnfilledInputs" - by website - from db and add to localStorage in order to send to background with "openBackground" function and then loop inside the background js file
         firebase
             .database()
             .ref("users/" + JSON.parse(localStorage.getItem("user")).user.uid)
             .once("value")
             .then(function (snapshot) {
-                if (snapshot.val() !== null) {
+                if (snapshot.val() !== null && typeof(snapshot.val().data) !== "undefined") {
                     let autoFill = Object.values(snapshot.val().data);
                     console.log(autoFill);
                     $("#profileName span").html(autoFill[0].value);
@@ -134,6 +137,7 @@ function loadData() {
                 }
                 $(".loader").hide();
                 $(".wrapper").show();
+                openBackground();
             });
     }, 0);
 }
