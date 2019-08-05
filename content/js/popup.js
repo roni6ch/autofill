@@ -143,7 +143,7 @@ function loadData() {
                         // get unfilled Inputs
                         firebase
                         .database()
-                        .ref("usersUnfilledInputs/" + JSON.parse(localStorage.getItem("user")).user.uid + "/" + activeTab.url.split(".")[1])
+                        .ref("usersUnfilledInputs/" + JSON.parse(localStorage.getItem("user")).user.uid + "/" + getDomain(activeTab.url))
                         .once("value")
                         .then(function (snapshot) {
                             if (snapshot.val() !== null && typeof(snapshot.val().unfilled) !== "undefined") {
@@ -170,4 +170,20 @@ function topInputs() {
         result = _.orderBy(result, [function (o) { return o.sum; }], ['desc']);
         console.log('top Results: ',result);
     });
+}
+
+function getDomain(domain = window.location.hostname) {
+  var domain = domain;
+  var parts = domain.split('.').reverse();
+  var cnt = parts.length;
+  if (cnt >= 3) {
+    if (parts[1].match(/^(com|edu|gov|net|mil|org|nom|co|name|io|info|biz)$/i)) {
+        return parts[1];
+    }
+  }
+  if (parts[1].includes("http://"))
+    parts[1] = parts[1].replace("http://",'');
+    if (parts[1].includes("https://"))
+    parts[1] = parts[1].replace("https://",'');
+    return parts[1];
 }

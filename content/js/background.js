@@ -202,9 +202,25 @@ function writeUserData(unFilledArr) {
     let userId = user.user.uid;
     firebase
       .database()
-      .ref("usersUnfilledInputs/" + userId + "/" + window.location.hostname.split(".")[1])
+      .ref("usersUnfilledInputs/" + userId + "/" + getDomain())
       .update({
         unfilled: unFilledArr
       });
   }
  
+
+  function getDomain(domain = window.location.hostname) {
+    var domain = domain;
+    var parts = domain.split('.').reverse();
+    var cnt = parts.length;
+    if (cnt >= 3) {
+      if (parts[1].match(/^(com|edu|gov|net|mil|org|nom|co|name|io|info|biz)$/i)) {
+          return parts[1];
+      }
+    }
+    if (parts[1].includes("http://"))
+      parts[1] = parts[1].replace("http://",'');
+      if (parts[1].includes("https://"))
+      parts[1] = parts[1].replace("https://",'');
+      return parts[1];
+  }
